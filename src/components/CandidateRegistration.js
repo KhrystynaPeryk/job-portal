@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import NavBar from './NavBar'
 
 const alertMessage = {
@@ -84,22 +84,59 @@ const CandidateRegistration = () => {
     const highlightInput = true
 
     const handleAddSkill = () => {
-
+        //maximum 5 skills to be added
+        if (formdata.skills.length < 5) {
+            setFormData((prevState) => ({
+                ...prevState,
+                // checking if a skill string is not empty
+                skills: prevState.skill.trim() === '' ? [...prevState.skills] : [...prevState.skills, prevState.skill],
+                // skill: ''
+            }))
+        }
+        console.log('Add Skill Button fired')
     }
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = (e) => {
+        console.log('submit start')
+        e.preventDefault()
         
+        console.log(formdata)
+        //validation
+
+
+        //get 'candidates' from localStorage
+        const localStorageData = JSON.parse(localStorage.getItem('candidates'));
+        //check if 'candidates' are in localStorage
+        if (localStorageData) {
+            //check if email is unique
+            const existingEmail = localStorageData.find(item => item.email === formdata.email)
+            if (existingEmail) {
+                //alerMessage
+            } else {
+                // set new candidates
+                localStorage.setItem('candidates', JSON.stringify([...localStorageData, formdata]));
+            }
+        } else {
+            console.log('no candidates in localStorage')
+        }
+        console.log('submit end')
     }
 
     const handleReset = () => {
-        
+        setFormData({
+            name: '',
+            email: '',
+            role: '',
+            skill: '',
+            skills: []
+        })
     }
     return (
         <div style={centerContainerStyle}>
             <NavBar />
             <div style={formBoxStyle}>
                 <div style={formBoxStyle}>
-                    <form onSubmit={handleFormSubmit} >
+                    <form onSubmit={handleFormSubmit} data-testid='registration-form'>
                         <div style={formGroupStyle}>
                             <input
                                 type='text'
@@ -108,7 +145,8 @@ const CandidateRegistration = () => {
                                 style={inputStyle}
                                 placeholder='Name'
                                 required
-                                // onChange={(e) => setFormData(prevData => {...prevData, e.target.value})}
+                                onChange={(e) => setFormData({...formdata, name: e.target.value})}
+                                data-testid='form-input-name'
                             />
                         </div>
                         <div style={formGroupStyle}>
@@ -119,7 +157,8 @@ const CandidateRegistration = () => {
                                 style={{...inputStyle, ...(highlightInput ? highLight : {})}}
                                 placeholder='Email'
                                 required
-                                // onChange={(e) => setFormData(prevData => {...prevData, e.target.value})}
+                                onChange={(e) => setFormData({...formdata, email: e.target.value})}
+                                data-testid='form-input-email'
                             />
                         </div>
                         <div style={formGroupStyle}>
@@ -130,7 +169,8 @@ const CandidateRegistration = () => {
                                 style={inputStyle}
                                 placeholder='Role'
                                 required
-                                // onChange={(e) => setFormData(prevData => {...prevData, e.target.value})}
+                                onChange={(e) => setFormData({...formdata, role: e.target.value})}
+                                data-testid='form-input-role'
                             />
                         </div>
                         <div style={formGroupStyle}>
@@ -141,24 +181,40 @@ const CandidateRegistration = () => {
                                 style={inputStyle}
                                 placeholder='Skill'
                                 required
-                                // onChange={(e) => setFormData(prevData => {...prevData, e.target.value})}
+                                onChange={(e) => {setFormData({...formdata, skill: e.target.value})}}
+                                data-testid='form-input-skill'
                             />
-                            <button style={addSkillButtonStyle} type='button'>
+                            <button 
+                                style={addSkillButtonStyle} 
+                                type='button' 
+                                data-testid='add-btn' 
+                                onClick={handleAddSkill} 
+                                // disable Add Skill button once the input is empty OR skills array has 5 items
+                                disabled={formdata.skill.trim() === '' || formdata.skills.length === 5 ? true : false}
+                            >
                                 Add Skill
                             </button>
                         </div>
                         <div>
                             {formdata.skills.map((skill, index) => (
-                                <span style={skillTagStyle}></span>
+                                <span style={skillTagStyle} data-testid='skill-tag' key={index}>{skill}</span>
                             ))}
                         </div>
                         <div style={buttonGroupStyle}>
-                            <button type='submit' style={sharpEdgeButtonStyle}>Register</button>
-                            <button type='button' style={sharpEdgeButtonStyle}>Reset</button>
+                            <button 
+                                type='submit' 
+                                style={sharpEdgeButtonStyle} 
+                                data-testid='submit-btn'
+                                // if no email/name/role/skills - disable Submit
+                                disabled={(formdata.name && formdata.email && formdata.role && formdata.skills.length > 0) ? false : true}
+                            >
+                                Register
+                            </button>
+                            <button type='button' style={sharpEdgeButtonStyle} onClick={handleReset} data-testid='reset-btn'>Reset</button>
                         </div>
                     </form>
                     {registrationStatus && (
-                        // implement this
+                        // implement this data-testid='alertMessage'
                         console.log(registrationStatus)
                     )}
                 </div>
