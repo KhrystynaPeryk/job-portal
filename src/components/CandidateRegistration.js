@@ -95,29 +95,42 @@ const CandidateRegistration = () => {
         }
         console.log('Add Skill Button fired')
     }
+    // validates input text BEFORE submit - returns true or false to disable the Submit ||||| it should not be empty string, it should contain only letters, numbers and spaces
+    const validateText = (text) => {
+        return /^[A-Za-z0-9][A-Za-z0-9 _]*[A-Za-z0-9]$|^[A-Za-z0-9]$/.test(text);
+    }
+    // validates input email BEFORE submit - returns true or false to disable the Submit 
+    const validateEmail = (email) => {
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+    }
 
     const handleFormSubmit = (e) => {
         console.log('submit start')
         e.preventDefault()
         
         console.log(formdata)
-        //validation
-
 
         //get 'candidates' from localStorage
-        const localStorageData = JSON.parse(localStorage.getItem('candidates'));
+        const localStorageCandidates = JSON.parse(localStorage.getItem('candidates'));
         //check if 'candidates' are in localStorage
-        if (localStorageData) {
+        if (localStorageCandidates) {
             //check if email is unique
-            const existingEmail = localStorageData.find(item => item.email === formdata.email)
+            const existingEmail = localStorageCandidates.find(item => item.email === formdata.email)
             if (existingEmail) {
                 //alerMessage
+                setRegitrationStatus('Email already exists')
+                console.log('email exists')
             } else {
-                // set new candidates
-                localStorage.setItem('candidates', JSON.stringify([...localStorageData, formdata]));
+                // update candidates
+                localStorage.setItem('candidates', JSON.stringify([...localStorageCandidates, formdata]));
+                //success message
+                setRegitrationStatus('You have been registered successfully')
             }
         } else {
             console.log('no candidates in localStorage')
+            // set new candidates
+            localStorage.setItem('candidates', JSON.stringify([formdata]));
+            setRegitrationStatus('You have been registered successfully')
         }
         console.log('submit end')
     }
@@ -130,6 +143,7 @@ const CandidateRegistration = () => {
             skill: '',
             skills: []
         })
+        setRegitrationStatus(null)
     }
     return (
         <div style={centerContainerStyle}>
@@ -205,8 +219,8 @@ const CandidateRegistration = () => {
                                 type='submit' 
                                 style={sharpEdgeButtonStyle} 
                                 data-testid='submit-btn'
-                                // if no email/name/role/skills - disable Submit
-                                disabled={(formdata.name && formdata.email && formdata.role && formdata.skills.length > 0) ? false : true}
+                                // if no VALID email/name/role/skills OR they are empty - disable Submit
+                                disabled={(validateText(formdata.name) && validateEmail(formdata.email) && validateText(formdata.role) && formdata.skills.length > 0) ? false : true}
                             >
                                 Register
                             </button>
@@ -215,7 +229,7 @@ const CandidateRegistration = () => {
                     </form>
                     {registrationStatus && (
                         // implement this data-testid='alertMessage'
-                        console.log(registrationStatus)
+                        <div style={alertMessage} data-testid='alertMessage'>{registrationStatus}</div>
                     )}
                 </div>
             </div>
