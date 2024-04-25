@@ -32,9 +32,11 @@ const Home = () => {
         <div style={homeStyle}>
             <NavBar />
             <div style={buttonContainerStyle}>
-                <button style={buttonStyle}>
+                <button style={buttonStyle} data-testid='registration-btn'>
+                    <Link to='/candidate/registration'>Candidate Registration</Link>
                 </button>
-                <button style={buttonStyle}>
+                <button style={buttonStyle} data-testid='list-btn'>
+                    <Link to='/candidate/list'>Candidate List</Link>
                 </button>
             </div>
         </div>

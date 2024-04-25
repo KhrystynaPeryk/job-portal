@@ -1,20 +1,14 @@
 import React, {useState, useEffect} from 'react'
+import ProfileCard from './ProfileCard'
+import NavBar from './NavBar'
 
 const searchContainerStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     height: '50vh',
     textAlign: 'center'
-}
-
-const profileCardStyle = {
-    backgrounColor: '#f0f0f0',
-    padding: '10px',
-    maxWidth: '600px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    marginBottom: '10px',
 }
 
 const searchBoxContainerStyle = {
@@ -23,15 +17,8 @@ const searchBoxContainerStyle = {
     marginBottom: '10px',
 }
 
-const skillsStyle = {
-    backgrounColor: '#333',
-    color: 'white',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    margin: '5px'
-}
 const searchBoxStyle = {
-    flex: '1',
+    flex: 1,
     padding: '10px',
     fontSize: '14px',
     border: '1px solid #ccc',
@@ -48,14 +35,14 @@ const buttonStyle = {
 
 const searchButtonStyle = {
     ...buttonStyle,
-    backgrounColor: '#525252',
+    backgroundColor: '#525252',
     color: 'white',
     border: 'none'
 }
 
 const listAllButtonStyle = {
     ...buttonStyle,
-    backgrounColor: '#525252',
+    backgroundColor: '#525252',
     color: 'white',
     border: 'none'
 }
@@ -83,6 +70,7 @@ const CandidateList = () => {
 
     return (
         <div style={{...searchContainerStyle, alignItems: 'center'}}>
+            <NavBar />
             <div style={searchBoxContainerStyle}>
                 <input
                     type='text'
@@ -99,19 +87,7 @@ const CandidateList = () => {
                 console.log()
             ) : (
                 <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start'}}>
-                    <div key={candidate.id} style={{...profileCardStyle, textAlign: 'left', marginRight: '10px'}}>
-                        <h2 style={{marginBottom: '10px'}}>Role: {candidate.role}</h2>
-                        <p>Name: {candidate.name}</p>
-                        <p>Email: {candidate.email}</p>
-                        <div>
-                            <p style={{fontWeight: 'bold'}}>Skills:</p>
-                            <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                                <div key={index} style={skillsStyle}>
-                                    {/* //implement this */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ProfileCard />
                 </div>    
             )}
         </div>

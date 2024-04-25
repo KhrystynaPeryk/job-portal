@@ -31,18 +31,22 @@ const NavBar = ({candidateCount}) => {
     return (
         <div style={navbarStyle}>
             <div style={centerHeadingStyle}>
-                <h1>Job Portal</h1>
+                <h1 data-testid='nav-heading'>Job Portal</h1>
             </div>
             <div>
-                <Link to='' style={linkStyle}>Home</Link>
-                {currentPage === '/candidate/registration' ? (
-                    <Link to='/candidate/list' style={linkStyle}>
-                        Candidate List {candidateCount}
-                    </Link>
-                ) : (
-                    <Link to='/candidate/registration' style={linkStyle}>
-                        Candidate Registration
-                    </Link>
+                {currentPage !== '/' && (
+                    <>
+                        <Link to='/' style={linkStyle} data-testid='nav-home-btn'>Home</Link>
+                        {currentPage === '/candidate/registration' ? (
+                            <Link to='/candidate/list' style={linkStyle} data-testid='nav-list-btn'>
+                                Candidate List {candidateCount}
+                            </Link>
+                        ) : (
+                            <Link to='/candidate/registration' style={linkStyle} data-testid='nav-registration-btn'>
+                                Candidate Registration
+                            </Link>
+                        )}
+                    </>
                 )}
             </div>
         </div>

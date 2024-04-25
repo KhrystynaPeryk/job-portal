@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import NavBar from './NavBar'
-import { prettyDOM } from '@testing-library/react'
 
 const alertMessage = {
     marginTop: '5px'
