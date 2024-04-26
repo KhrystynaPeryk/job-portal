@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useState} from 'react'
 import NavBar from './NavBar'
 
 const alertMessage = {
@@ -80,7 +80,7 @@ const CandidateRegistration = () => {
     })
 
     const [registrationStatus, setRegitrationStatus] = useState(null)
-    const [candidates, setCandidates ] = useState([])
+    const [candidates, setCandidates ] = useState(JSON.parse(localStorage.getItem('candidates')))
     const highlightInput = true
 
     const handleAddSkill = () => {
@@ -121,15 +121,17 @@ const CandidateRegistration = () => {
                 setRegitrationStatus('Email already exists')
                 console.log('email exists')
             } else {
-                // update candidates
+                // update candidates in LocalStore and useState
                 localStorage.setItem('candidates', JSON.stringify([...localStorageCandidates, formdata]));
+                setCandidates((prevState) => [...prevState, formdata])
                 //success message
                 setRegitrationStatus('You have been registered successfully')
             }
         } else {
             console.log('no candidates in localStorage')
-            // set new candidates
+            // set new candidates in LocalStore and useState
             localStorage.setItem('candidates', JSON.stringify([formdata]));
+            setCandidates((prevState) => [...prevState, formdata])
             setRegitrationStatus('You have been registered successfully')
         }
         console.log('submit end')
@@ -147,7 +149,7 @@ const CandidateRegistration = () => {
     }
     return (
         <div style={centerContainerStyle}>
-            <NavBar />
+            <NavBar candidateCount={candidates.length} />
             <div style={formBoxStyle}>
                 <div style={formBoxStyle}>
                     <form onSubmit={handleFormSubmit} data-testid='registration-form'>

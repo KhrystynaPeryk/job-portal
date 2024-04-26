@@ -10,7 +10,7 @@ const profileCardStyle = {
 }
 
 const skillsStyle = {
-    backgrounColor: '#333',
+    backgroundColor: '#333',
     color: 'white',
     borderRadius: '5px',
     padding: '5px 10px',
@@ -19,7 +19,7 @@ const skillsStyle = {
 
 const ProfileCard = ({candidate}) => {
     return (
-        <div className='profile-card' style={{...profileCardStyle, textAlign: 'left', marginRight: '10px'}}>
+        <div data-testid='profile-card' style={{...profileCardStyle, textAlign: 'left', marginRight: '10px'}}>
             <h2 style={{marginBottom: '10px'}}>Role: {candidate.role}</h2>
             <p>Name: {candidate.name}</p>
             <p>Email: {candidate.email}</p>
@@ -27,7 +27,7 @@ const ProfileCard = ({candidate}) => {
                 <p style={{fontWeight: 'bold'}}>Skills:</p>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                 {candidate.skills.map((item, index) => (
-                    <div key={index} style={skillsStyle}>
+                    <div key={index} style={skillsStyle} >
                         {item}
                     </div>             
                 ))}
@@ -38,17 +38,3 @@ const ProfileCard = ({candidate}) => {
 }
 
 export default ProfileCard
-
-// <div key={candidate.id} style={{...profileCardStyle, textAlign: 'left', marginRight: '10px'}}>
-//                         <h2 style={{marginBottom: '10px'}}>Role: {candidate.role}</h2>
-//                         <p>Name: {candidate.name}</p>
-//                         <p>Email: {candidate.email}</p>
-//                         <div>
-//                             <p style={{fontWeight: 'bold'}}>Skills:</p>
-//                             <div style={{display: 'flex', flexWrap: 'wrap'}}>
-//                                 <div key={index} style={skillsStyle}>
-
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>

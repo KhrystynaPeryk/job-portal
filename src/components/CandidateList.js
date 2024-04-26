@@ -50,22 +50,27 @@ const listAllButtonStyle = {
 const CandidateList = () => {
 
     const [searchText, setSearchText] = useState('')
-    const [filteredCandidates, setFilteredCandidates] = useState('')
+    const [filteredCandidates, setFilteredCandidates] = useState([])
     const [candidates, setCandidates] = useState([])
 
     useEffect(() => {
-        const storedCandidates = localStorage.getItem('candidates')
+        const storedCandidates = JSON.parse(localStorage.getItem('candidates'));
         if (storedCandidates) {
-            //implement here
+            setCandidates(storedCandidates)
         }
     }, [])
 
     const handleSearch = () => {
-        //implement here
+        setFilteredCandidates([])
+        candidates.forEach((item) => {
+            if (item.skills.filter(skill => skill === searchText.toLowerCase())) {
+                setFilteredCandidates(prevState => [...prevState, item])
+            }
+        })
     }
 
     const handleListAll = () => {
-        //implement here
+        setFilteredCandidates([])
     }
 
     return (
@@ -75,21 +80,28 @@ const CandidateList = () => {
                 <input
                     type='text'
                     placeholder='search skills'
-                    value=''
+                    value={searchText}
                     style={searchBoxStyle}
-                    //implement here
+                    data-testid='search-input'
+                    onChange={(e) => {setSearchText(e.target.value)}}
                 />
-                <button style={searchButtonStyle}>Search Button</button>
-                <button style={listAllButtonStyle}>List All</button>
+                <button style={searchButtonStyle} onClick={handleSearch}>Search Button</button>
+                <button style={listAllButtonStyle} data-testid='search-all' onClick={handleListAll}>List All</button>
             </div>
+            <div>
+                <h2>Number of profiles: 
+                    <span data-testid='profiles-found-tag'> 
+                        {filteredCandidates.length === 0 ? ` ${candidates.length}` : ` ${filteredCandidates.length}` }
+                    </span>
+                </h2>
+            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start'}}>
             {filteredCandidates.length === 0 ? (
-                //implement here
-                console.log()
+                candidates.map((item) => <div key={item.email}><ProfileCard candidate={item}/></div>)
             ) : (
-                <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start'}}>
-                    <ProfileCard />
-                </div>    
+                filteredCandidates.map((item) => <div key={item.email}><ProfileCard candidate={item}/></div>)
             )}
+            </div> 
         </div>
     )
 }
