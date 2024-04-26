@@ -63,7 +63,8 @@ const CandidateList = () => {
     const handleSearch = () => {
         setFilteredCandidates([])
         candidates.forEach((item) => {
-            if (item.skills.filter(skill => skill === searchText.toLowerCase())) {
+            const fileteredArray = item.skills.filter(skill => skill.toLowerCase() === searchText.toLowerCase())
+            if (fileteredArray.length > 0) {
                 setFilteredCandidates(prevState => [...prevState, item])
             }
         })
