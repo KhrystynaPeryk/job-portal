@@ -4,6 +4,12 @@ import Home from './components/Home';
 import CandidateRegistration from './components/CandidateRegistration';
 import CandidateList from './components/CandidateList';
 
+const appContainerStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,7 +27,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="appContainer">
+    <div className="appContainer" style={appContainerStyle}>
       <RouterProvider router={router} />
     </div>
   );
