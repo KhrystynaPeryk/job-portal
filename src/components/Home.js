@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import NavBar from './NavBar'
 
 const homeStyle = {
@@ -8,7 +8,8 @@ const homeStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '30vh',
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: 'white',
 }
 
 const buttonContainerStyle = {
@@ -19,7 +20,7 @@ const buttonContainerStyle = {
 }
 
 const buttonStyle = {
-    testDecoration: 'none',
+    textDecoration: 'none',
     color: '#fff',
     backgroundColor: '#525252',
     padding: '10px 20px',
@@ -28,16 +29,13 @@ const buttonStyle = {
 }
 
 const Home = () => {
+    const navigateTo = useNavigate()
     return (
         <div style={homeStyle}>
             <NavBar />
             <div style={buttonContainerStyle}>
-                <button style={buttonStyle} data-testid='registration-btn'>
-                    <Link to='/candidate/registration'>Candidate Registration</Link>
-                </button>
-                <button style={buttonStyle} data-testid='list-btn'>
-                    <Link to='/candidate/list'>Candidate List</Link>
-                </button>
+                <button style={buttonStyle} data-testid='registration-btn' onClick={() => navigateTo('/candidate/registration')}>Candidate Registration</button>
+                <button style={buttonStyle} data-testid='list-btn' onClick={() => navigateTo('/candidate/list')}>Candidate List</button>
             </div>
         </div>
     )

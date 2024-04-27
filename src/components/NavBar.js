@@ -5,7 +5,7 @@ const navbarStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px'
+    padding: '10px',
 }
 
 const linkStyle = {
@@ -19,9 +19,10 @@ const linkStyle = {
 }
 
 const centerHeadingStyle = {
-    marginLeft: '625px',
-    flex: 1
+    flex: 1,
+    textAlign: 'center'
 }
+
 
 const NavBar = ({candidateCount}) => {
     const location = useLocation()
@@ -30,7 +31,7 @@ const NavBar = ({candidateCount}) => {
     useLocation().pathname !== currentPage && setCurrentPage(location.pathname)
     return (
         <div style={navbarStyle}>
-            <div style={centerHeadingStyle}>
+            <div style={currentPage !== '/' ? {...centerHeadingStyle, marginRight: '625px'} : centerHeadingStyle}>
                 <h1 data-testid='nav-heading'>Job Portal</h1>
             </div>
             <div>

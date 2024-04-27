@@ -7,8 +7,6 @@ const searchContainerStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '50vh',
-    textAlign: 'center'
 }
 
 const searchBoxContainerStyle = {
@@ -75,7 +73,7 @@ const CandidateList = () => {
     }
 
     return (
-        <div style={{...searchContainerStyle, alignItems: 'center'}}>
+        <div style={searchContainerStyle}>
             <NavBar />
             <div style={searchBoxContainerStyle}>
                 <input

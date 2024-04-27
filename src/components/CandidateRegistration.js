@@ -15,7 +15,7 @@ const centerContainerStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     height: '50vh',
-    textAlign: 'center'
+    textAlign: 'center',
 }
 
 const addSkillButtonStyle = {
